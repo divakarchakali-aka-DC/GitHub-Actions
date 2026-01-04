@@ -1,0 +1,43 @@
+name: artifacts and outputs
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - .github/workflows/*
+  workflow_dispatch:
+jobs:
+  Get-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: display context
+        run: echo "${{ github }}"
+  Get-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v6
+  Install-dep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install dependencies for node app
+        run: npm ci
+  lint-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: lint code for syntax correction
+        run: npm run lint
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: perform tests on code
+        run: npm run test
+  build-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: npm run build
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy code
+        run: echo "code deployed!"
