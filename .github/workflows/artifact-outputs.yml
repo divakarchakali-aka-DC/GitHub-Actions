@@ -11,13 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: display context
-        run: echo "${{ github }}"
+        run: echo "${{ toJSON(github) }}"
   Get-code:
     runs-on: ubuntu-latest
     steps:
       - name: get code
         uses: actions/checkout@v6
   Install-dep:
+    needs: Get-code
     runs-on: ubuntu-latest
     steps:
       - name: get code
@@ -25,6 +26,7 @@ jobs:
       - name: install dependencies for node app
         run: npm ci
   lint-code:
+    needs: Install-dep
     runs-on: ubuntu-latest
     steps:
       - name: get code
@@ -34,6 +36,7 @@ jobs:
       - name: lint code for syntax correction
         run: npm run lint
   test-code:
+    needs: lint-code
     runs-on: ubuntu-latest
     steps:
       - name: get code
@@ -43,6 +46,7 @@ jobs:
       - name: perform tests on code
         run: npm run test
   build-code:
+    needs: test-code
     runs-on: ubuntu-latest
     steps:
       - name: get code
@@ -52,6 +56,7 @@ jobs:
       - name: build code
         run: npm run build
   deploy:
+    needs: build-code
     runs-on: ubuntu-latest
     steps:
       - name: deploy code
