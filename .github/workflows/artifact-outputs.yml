@@ -20,21 +20,33 @@ jobs:
   Install-dep:
     runs-on: ubuntu-latest
     steps:
+      - name: get code
+        uses: actions/checkout@v6
       - name: install dependencies for node app
         run: npm ci
   lint-code:
     runs-on: ubuntu-latest
     steps:
+      - name: get code
+        uses: actions/checkout@v6
       - name: lint code for syntax correction
         run: npm run lint
   test-code:
     runs-on: ubuntu-latest
     steps:
+      - name: get code
+        uses: actions/checkout@v6
+      - name: install dependencies for node app
+        run: npm ci
       - name: perform tests on code
         run: npm run test
   build-code:
     runs-on: ubuntu-latest
     steps:
+      - name: get code
+        uses: actions/checkout@v6
+      - name: install dependencies for node app
+        run: npm ci
       - name: build code
         run: npm run build
   deploy:
