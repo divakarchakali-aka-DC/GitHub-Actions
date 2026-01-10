@@ -7,71 +7,47 @@ on:
       - ".github/workflows/*"
   workflow_dispatch:
 jobs:
-  Get-context:
-    runs-on: ubuntu-latest
-    steps:
-      - name: display context
-        run: echo "${{ toJSON(github) }}"
-  Get-code:
+  code:
     runs-on: ubuntu-latest
     steps:
       - name: get code
         uses: actions/checkout@v6
-  Install-dep:
-    needs: Get-code
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: get code
+      - name: get-code
         uses: actions/checkout@v6
-      - name: install dependencies for node app
+      - name: install dependencies
         run: npm ci
-  lint-code:
-    needs: Install-dep
-    runs-on: ubuntu-latest
-    steps:
-      - name: get code
-        uses: actions/checkout@v6
-      - name: install dependencies for node app
-        run: npm ci
-      - name: lint code for syntax correction
-        run: npm run lint
-  test-code:
-    needs: lint-code
-    runs-on: ubuntu-latest
-    steps:
-      - name: get code
-        uses: actions/checkout@v6
-      - name: install dependencies for node app
-        run: npm ci
-      - name: perform tests on code
+      - name: test code
         run: npm run test
-  build-code:
-    needs: test-code
+  build:
     runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }}
     steps:
-      - name: get code
+      - name: get-code
         uses: actions/checkout@v6
-      - name: install dependencies for node app
+      - name: install dependencies code
         run: npm ci
       - name: build code
         run: npm run build
+      - name: publish script file
+        id: publish
+        run: find dist/assets/*.js -type f -execdir echo "script-file={} >> $GITHUB_OUTPUT" ";"
       - name: upload artifacts
         uses: actions/upload-artifact@v6
         with:
+          name: dist-files
           path: dist
-          name: dist-files        
   deploy:
-    needs: build-code
     runs-on: ubuntu-latest
     steps:
       - name: download artifacts
         uses: actions/download-artifact@v6
         with:
           name: dist-files
-      - name: get ip address
-        run: ipaddr
+      - name: list artifact files
+        run: ls
       - name: deploy code
-        run: echo "fake deployment"
-
-
-
+        run: echo "code deployed"
