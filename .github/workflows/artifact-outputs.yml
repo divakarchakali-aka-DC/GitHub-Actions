@@ -65,12 +65,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: download artifacts
-        uses: actions/download-artifacts@v6
+        uses: actions/download-artifact@v6
         with:
           name: dist-files
       - name: get ip address
         run: ipaddr
       - name: deploy code
         run: echo "fake deployment"
+
 
 
