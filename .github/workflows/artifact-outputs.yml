@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       script-file: ${{ steps.publish.outputs.script-file }}
-    steps:
+    steps: 
       - name: get-code
         uses: actions/checkout@v6
       - name: install dependencies code
@@ -52,6 +52,7 @@ jobs:
           name: dist-files
       - name: list artifact files
         run: ls
+      - name: display job outputs
+        run: echo "{{ needs.build.outputs.script-file }}"
       - name: deploy code
         run: echo "code deployed"
-
