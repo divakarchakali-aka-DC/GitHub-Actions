@@ -25,6 +25,9 @@ jobs:
           path: ~/.npm
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: test code
-        run: npm run test
+        run: |
+          pwd
+          ls
+          npm run test
       - name: install dependencies
         run: npm ci
