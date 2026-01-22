@@ -25,5 +25,5 @@ jobs:
         with:
           path: ~/.npm
           key: node-modules-${{ hashFiles(**/package-lock.json) }}
-     - name: test
-       run: npm run test
+      - name: test code
+        run: npm run test
