@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v6
-      - name: build dependencies
+      - name: install dependencies
         run: npm ci
       - name: cache dependencies
         uses: actions/cache@v4
@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v6
-      - name: build dependencies
+      - name: install dependencies
         run: npm ci
       - name: cache dependencies
         uses: actions/cache@v4
