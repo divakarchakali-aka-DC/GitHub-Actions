@@ -6,21 +6,19 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v6
-      - name: install dependencies
-        run: npm ci
       - name: cache dependencies
         uses: actions/cache@v4
         with:
           path: ~/.npm
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: install dependencies
+        run: npm ci
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: code checkout
         uses: actions/checkout@v6
-      - name: install dependencies
-        run: npm ci
       - name: cache dependencies
         uses: actions/cache@v4
         with:
@@ -28,3 +26,5 @@ jobs:
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: test code
         run: npm run test
+      - name: install dependencies
+        run: npm ci
